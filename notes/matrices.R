@@ -126,7 +126,10 @@ mat.com.1 <- matrix(1:10, nrow = 5, ncol = 2)
 rbind(mat.com.1, c(101, 102))
 # Add extra columns: (by vector)
 cbind(mat.com.1, c(201, 202, 203, 204, 205))
-
+# If we add a vector variable, the variable name will be the row or column name
+v.named <- c(201, 202, 203, 204, 205)
+cbind(mat.com.1, v.named)
+rbind(mat.com.1, quick.v.row = c(11,22)) #inline naming
 
 mat.com.2 <- matrix(1:8, nrow = 4, ncol = 2)
 mat.com.3 <- matrix(101:108, nrow = 4, ncol = 2)
@@ -144,13 +147,17 @@ mat.com.5.rbind <- rbind(mat.com.2, mat.com.5)
 
 
 # What if we have colnames and rownames?
+rownames(mat.com.2) <- rownames(mat.com.2, do.NULL = F)
+colnames(mat.com.2) <- colnames(mat.com.2, do.NULL = F)
+rbind(mat.com.2, mat.com.3)
+cbind(mat.com.2, mat.com.3)
+rownames(mat.com.3) <- rownames(mat.com.3, do.NULL = F, prefix = 'new.row')
+rbind(mat.com.2, mat.com.3)
 
 
-
-
-
-
+############ Indexing and Slicing Matrices ############
 
 
 t(mat.com.2)
 c(mat.com.2)
+
