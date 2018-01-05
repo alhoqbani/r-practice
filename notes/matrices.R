@@ -91,7 +91,7 @@ mat.students <-
   )
 
 
-############ NamingColumns and Rows ############
+############ Naming Columns and Rows ############
 mat.cols.1 <- matrix(1:30, nrow = 6, byrow = T)
 mat.cols.2 <- matrix(1:20, nrow = 4, byrow = T)
 
@@ -119,7 +119,31 @@ colnames(mat.cols.1) <- colnames(mat.cols.1, do.NULL = F, prefix = 'my.col.auto.
 colnames(mat.cols.2) <- colnames(mat.cols.2, do.NULL = F, prefix = 'my.col.auto.name.') # colnames will be assigne to the auto names b/c there was no names.
 
 
-############ Indexing and Slicing Matrices ############
+############ Merging and Adding to Matrices ############
+mat.com.1 <- matrix(1:10, nrow = 5, ncol = 2)
+
+# Add extra rows: (by vector)
+rbind(mat.com.1, c(101, 102))
+# Add extra columns: (by vector)
+cbind(mat.com.1, c(201, 202, 203, 204, 205))
+
+
+mat.com.2 <- matrix(1:8, nrow = 4, ncol = 2)
+mat.com.3 <- matrix(101:108, nrow = 4, ncol = 2)
+# We can bind both matrecis as rbind or cbind b/c they share the same `dim`
+mat.com.3.rbind <- rbind(mat.com.2, mat.com.3)
+mat.com.3.cbind <- cbind(mat.com.2, mat.com.3)
+
+mat.com.4 <- matrix(101:116, nrow = 4)
+# mat.com.4.rbind <- rbind(mat.com.2, mat.com.4) # Can't do it b/c they have diffirent cols count
+mat.com.4.cbind <- cbind(mat.com.2, mat.com.4)
+
+mat.com.5 <- matrix(101:116, ncol = 2)
+mat.com.5.rbind <- rbind(mat.com.2, mat.com.5) 
+# mat.com.5.cbind <- cbind(mat.com.2, mat.com.5) # Can't do it b/c they have diffirent cols count
+
+
+# What if we have colnames and rownames?
 
 
 
@@ -128,6 +152,5 @@ colnames(mat.cols.2) <- colnames(mat.cols.2, do.NULL = F, prefix = 'my.col.auto.
 
 
 
-
-
-
+t(mat.com.2)
+c(mat.com.2)
