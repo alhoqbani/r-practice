@@ -1,8 +1,3 @@
-
-
-
-
-
 ############ Creating Matrices ############
 
 mat.0 <- matrix() # empty matrix
@@ -114,7 +109,7 @@ rownames(mat.cols.1) # get colnames, returns char vector of 5
 rownames(mat.cols.2, do.NULL = F)
 rownames(mat.cols.2, do.NULL = F, prefix = 'my.row.auto.name.')
 
-# Trick to give rownames only if there is no rownames:
+# Trick to set rownames only if there is no rownames:
 colnames(mat.cols.1) <- colnames(mat.cols.1, do.NULL = F, prefix = 'my.col.auto.name.') # rownames will not be changed b/c it was already named.
 colnames(mat.cols.2) <- colnames(mat.cols.2, do.NULL = F, prefix = 'my.col.auto.name.') # colnames will be assigne to the auto names b/c there was no names.
 
@@ -156,8 +151,49 @@ rbind(mat.com.2, mat.com.3)
 
 
 ############ Indexing and Slicing Matrices ############
+mat.bycol <- mat.5; View(mat.5)
+mat.byrow <- mat.6; View(mat.6)
+
+# By index number (one dimension)
+mat.bycol[1]
+mat.bycol[10]
+mat.byrow[10]
+mat.bycol[40]
+mat.bycol[1:3]
+mat.byrow[1:3]
+mat.bycol[c(1,5,8)]
+mat.byrow[c(1,5,8)]
+help('[')
+mat.bycol[[1]]
+mat.bycol[[10]]
+mat.byrow[[1]]
+mat.byrow[[10]]
+# mat.bycol[[40]] # Error: in mat.2[[40]] : subscript out of bounds
+# mat.bycol[[1:3]] # attempt to select more than one element in vectorIndex
+# mat.bycol[[c(1:3)]] # attempt to select more than one element in vectorIndex
 
 
-t(mat.com.2)
+# Subscript ()
+mat.bycol[1,] # vector with first row
+mat.bycol[,1] # vector with first col
+mat.byrow[1,]
+mat.byrow[,1]
+
+mat.bycol[1:3,] # subsetting: matrix with first 3 rows
+class(mat.bycol[1:3,])
+
+mat.bycol[, 1:3] # subsetting: matrix with first 3 cols
+class(mat.bycol[, 1:3])
+
+mat.bycol[2:3, 2:3] # matrix with first 2 rows and first 2 cols
+
+mat.bycol[mat.bycol > 20 & mat.bycol %% 2 == 1] # Vector with x > 10
+# mat.bycol[mat.bycol > 20, ] # logical subscript too long
+# mat.bycol[, mat.bycol > 20 ] # logical subscript too long
+
+subset(mat.bycol, subset = mat.bycol[,4] > 20)
+mat.bycol[mat.bycol[,4] > 20,]
+
+t(mat.com.2) 
 c(mat.com.2)
 
