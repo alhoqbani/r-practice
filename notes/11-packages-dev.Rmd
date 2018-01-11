@@ -1,0 +1,133 @@
+---
+title: "R Packages Development"
+author: "Hamoud Alhoqbani"
+date: "1/11/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Short manual for creating your own package.
+
+## Step 1: Prepare development environment
+
+### Install required/recommended packages
+
+- devtools (automate common development tasks)
+- roxygen2 (generate documentation)
+- testthat (automated tests)
+- knitr (report generation for Vignettes)
+
+```{r install packages, message=FALSE, warning=FALSE}
+# install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
+if(!require(devtools)) install.packages("devtools",repos = "http://cran.us.r-project.org")
+if(!require(roxygen2)) install.packages("roxygen2",repos = "http://cran.us.r-project.org")
+if(!require(testthat)) install.packages("testthat",repos = "http://cran.us.r-project.org")
+if(!require(knitr)) install.packages("knitr",repos = "http://cran.us.r-project.org")
+```
+
+
+### Verify environment is ready for packages development
+```{r check environment}
+library(devtools)
+has_devel() # This should return TRUE
+```
+
+
+## Step 2: Create new package using RStudio
+You can use `devtools::create()` to create project skeleton.
+However, it's easier to use RStudio to create the project.
+
+### Create the package files using RStudio
+
+1. File > New Project > New Directory >  R Package
+2. Fill the details: 
+    - choose a name: package name requirements:
+        * can have only: letters, numbers and periods
+        * must start with a letter
+        * cannot end with a period
+    - location where the project file should be saved.
+    - Check enable  git repository.
+    - Check open in new session.
+
+
+### Add and commit the files to git repository
+```
+git status
+git add .
+git status
+git commit -m 'Initial commit'
+git status
+```
+
+## Step 3: Write Package Functions
+
+All custom R scripts for the package should be stored in the `R` directory.
+
+- Create a new R script and save it to the R folder inside the package project directory. 
+- You can choose any name to the file, but it's recommended to choose a name that describes the purpose of the functions inside the file. 
+- You can put each function in a separate file, or groups related functions into one file.
+
+## Step 4: Using Your Package
+Before using the package, you must install it into your `library`.
+
+A package can be installed using different methods. 
+
+The most common method is installing the package from cran repository using `install.packages()`
+
+Using the `devtools` package, you can install packages from github.com or from a local directory.
+or from other sources.
+
+
+### Installing the package
+
+Because we are not going to upload the package to `cran`, we will use github. 
+However, we will test installing the package locally first.
+
+
+#### Options 1: Loading the package from local location
+
+From you project, e.g. (r-Practice), load your new package to use it.
+```{r}
+devtools::install_local('path/to/package')
+```
+
+#### Option 2: Loading the package from github.com
+
+1. Add your new files and all changes to git:
+```
+git status
+git add .
+git commit -m 'Add pacakge custom functions'
+```
+2. Create a repository in github and push the package:
+Visit https://github.com and create new repository and give it the same name as your package name. 
+
+The address of the new repo will be something like: https://github.com/username/packagename
+
+Upload/Push your package files to the new repository.
+```
+git remote add origin git@github.com:username/packagename.git
+git push -u origin master
+```
+
+3. Install the package to your library.
+```{r}
+devtools::install_github('username/packagename')
+```
+
+### Loading and using the package
+```
+library(packagename)
+package.function()
+# or using the namespace
+packagename::package.function()
+```
+
+
+# Resources
+
+- http://r-pkgs.had.co.nz/
+- https://www.datacamp.com/community/tutorials/r-packages-guide
