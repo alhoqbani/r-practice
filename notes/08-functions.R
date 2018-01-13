@@ -367,6 +367,38 @@ draw.my.chart(
 R has seperate namespacing for functions and non-functions.
 How are look up the envs, using search() and the order.
 "
+var.global <- 'I am in the global env'
+
+x <- 'hi i am x'
+
+fun.1 <- function() {
+  # var.inside.fun <- 'I am inside the fun 1'
+  # var.global <- 'I am edited insed fun.1'
+  # var.global <- 'New string for global'
+  x <- 'not x'
+  
+  fun.2 <- function() {
+    print('i am fun 2')
+  }
+  
+  fun.2()
+  
+  print(x)
+}
+
+# 
+
+fun.1()
+
+# print(var.global)
+print(x)
+# fun.2() cannot use b/c it's inside fun.1 env
+
+
+
+
+# print(var.inside.fun) # cannot print b/c it's inside fun.1 env
+
 c <- 'as'
 c(1, 2)
 c <- function (x, y) {
@@ -387,9 +419,15 @@ g <- function() {
   c(x, y)
 }
 g()
+
+
+
 rm(x, g)
 
+
+
 # Nested functions
+
 first <- function(x, y) {
   z <- x + y
   return(z)
@@ -400,6 +438,7 @@ add <- function(a, b) {
 vector <- c(3, 4, 5, 6)
 
 sapply(vector, add, 1)
+
 
 x <- 5
 f <- function() {
@@ -415,9 +454,12 @@ g <- function() {
   c(x = x, y = y)
 }
 g()
+
+
 x <- 5
 h <- function() {
   y <- 10
+  
   i <- function() {
     z <- 20
     c(x = x, y = y, z = z)
@@ -427,7 +469,158 @@ h <- function() {
 h()
 
 
+x <- 5
+h <- function() {
+  y <- 10
+  
+  i <- function() {
+    z <- 20
+    c(x = x, y = y, z = z)
+  }
+  i
+}
+h()
+h
 
+
+
+print(mean)
+
+mean <- 10
+
+mean(1:30)
+print(mean)
+
+mean()
+
+mean <- function(x) {
+  return(10)
+}
+detach('package:dplyr')
+union(1, 1)
+union
+search()
+library(dplyr)
+mean(1:30)
+
+
+x <- 5
+h <- function() {
+  y <- 10
+  
+  i <- function() {
+    z <- 20
+    c(x = x, y = y, z = z)
+  }
+  i
+}
+
+h()
+
+
+x <- h()
+x()
+
+
+my.fun.constructor <- function(err.marg = 3) {
+  
+  y <- function(z) {
+    # data analysis needs err.marg
+    
+    z ^ err.marg
+  }
+  
+  return(y)
+}
+
+
+my.fun.constructor.2 <- function(err.marg) {
+  
+  y <- function(data) {
+    # data analysis needs err.marg
+    # Cleaning .... 
+    integer <- 'HI'
+    err.marg(data)
+  }
+
+  return(y)
+}
+
+
+cacl.err <- function(d) {
+  return(d * 10)
+}
+
+create.func <-  my.fun.constructor.2(cacl.err)
+
+create.func(3)
+
+
+# Decreyption to data
+process.data <- function(closure) {
+  
+  # Get the data from files/api/net
+  # Clean the data 
+  # Find some value (secret)
+  
+  secret <- 1400
+  
+  key <- closure(secret)
+  
+  
+  data <- paste(key, 'some secret data')
+  
+}
+
+decrypter <- function(sec) {
+  key <- sec + 1
+  
+  return(key)
+}
+
+
+retrieved.data <- process.data(decrypter)
+
+
+
+power <- function(exponent) {
+  y <- function(x) {
+    x ^ exponent
+  }
+  y
+  
+}
+
+square <- power(2)
+square(2)
+
+
+cube <- power(3)
+cube(2)
+
+cube(4)
+
+
+lapply(c(1:3), cube)
+sapply(c(1:3), cube)
+
+lapply(c(1:3), function(anyname) {
+  (anyname ^ 3) + 5
+})
+x
+
+
+
+
+project.1 <- my.fun.constructor(5)
+project.1
+project.1(z = 2)
+
+creatred.fun <- my.fun(4)
+body(creatred.fun)
+
+formals(creatred.fun)
+creatred.fun(8)
 
 # Functions to do with functions ----
 # Functions to do with functions

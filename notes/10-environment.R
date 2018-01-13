@@ -1,7 +1,34 @@
-env.1 <- new.env()
 
+# What is environment -----------------------------------------------------
+
+# Key value pair
+
+x <- 1:10
+y <- mtcars
+
+f <- function () {
+  print('hi')
+}
+
+
+env.1 <- new.env()
+class(env.1)
 
 env.1$a <- 'A Letter'
+env.1$key <- 1:3
+
+objects(env.1)
+objects()
+ls()
+get('a', env.1)
+
+get('f')
+
+
+env.1$a
+
+a
+
 env.1$bool <- F
 
 env.1$c <- 1:3
@@ -18,13 +45,31 @@ class(env.1) # environment
 attributes(env.1) 
 attr(env.1, 'name') <- 'my.first.env'
 
+env.1$inner.env <- new.env()
+env.1$inner.env
 
+parent.env(env.1)
+parent.env(environment())
+parent.env(environment())
+parent.env(environment(env.1$inner.env))
+
+search()
 
 "Everey environment has a parent except the empty environment"
 parent.env(env.1)
 
+baseenv()
+
+rm('letters', envir = baseenv())
+
 env.empty <- emptyenv()
 parent.env(env.empty) # Error: the empty environment has no parent
+
+search()
+
+library(YazeedPackage)
+library(rSaudiregions)
+detach('package:YazeedPackage')
 
 
 # Special Environment -----------------------------------------------------
@@ -34,11 +79,16 @@ parent.env(env.empty) # Error: the empty environment has no parent
 globalenv()
 parent.env(globalenv()) # The last package was loaded using library() or require()
 
+
+
 library(rSaudiregions)
 parent.env(globalenv()) # The last package was loaded using library() or require()
 # detach('package:rSaudiregions')
 search() # lists all parents of the global environment
 as.environment("package:stats")
+
+rm('tree', as.environment("package:dataset"))
+
 
 # 2) Base Env
 baseenv() # environment of the base package
@@ -75,11 +125,24 @@ get('any.object', envir = env.1) # Return Error when objs does not exist
 # Remove objects from env
 rm('bool', envir = env.1)
 
-rm(ls())
+rm(list = ls(env.1))
+
+rm(list = ls())
+
 
 exists("x", envir = env.1)
+exists("a", envir = env.1)
 
 
+
+
+fun.name <- function() {
+  print(environment())
+}
+
+
+
+fun.name()
 
 
 # Function environments ---------------------------------------------------

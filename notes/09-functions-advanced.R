@@ -5,8 +5,12 @@ install.packages("pryr")
 
 # Get all functions in the base package
 objs <- mget(ls("package:base"), inherits = TRUE)
+
+
 funs.primitive <- Filter(is.primitive, objs)
+
 funs <- Filter(is.function, objs)
+
 class(funs)
 
 f <- function() x
