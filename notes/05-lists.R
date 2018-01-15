@@ -11,7 +11,7 @@ str(lis.vec)
 
 # List can have diffirent types
 lis.mix.1 <- list(1:20, letters[1:10])
-str(lis.mix)
+str(lis.mix.1)
 lis.mix.2 <- list(sample(LETTERS, 5), airquality)
 str(lis.mix.2)
 
