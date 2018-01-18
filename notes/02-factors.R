@@ -24,18 +24,23 @@ levels(fac.2) # 5 levels only
 nlevels(fac.2)
 length(fac.2) # length is 15 b/c we have 15 values
 summary(fac.2)
+n
 
 
 
 blood.types <- c('A', 'O', 'A', 'AB', 'B', 'O', 'AB', 'AB')
+as.factor(blood.types)
 blood.factor <- factor(blood.types)
 str(blood.factor) # Check the encoding of the characters
 
 
 
 # Create a factor with levels
-fac.3 <- factor(sample(letters[1:4]), levels = letters[1:5])
+set.seed(123)
+vec.cahr <- sample(letters[1:4])
+fac.3 <- factor(vec.cahr, levels = letters[1:5])
 str(fac.3)
+summary(fac.3)
 fac.4 <- factor(sample(letters[1:10], 10, replace = T), levels = letters[1:5])
 str(fac.4)
 fac.4 <- factor(sample(letters[1:10], 10, replace = T), levels = letters[1:5])
@@ -46,18 +51,53 @@ str(blood.factor)
 
 blood.factor <- factor(blood.types, levels = c('A', 'B', 'AB', 'O'))
 str(blood.factor)
+
 levels(blood.factor) <- c('BT_A', 'BT_B', 'BT_AB', 'BT_O')
 
 
 blood.factor <-
   factor(
     blood.types,
-    levels = c('A', 'B', 'AB', 'O'),
     labels = c('BT_A', 'BT_B', 'BT_AB', 'BT_O')
   )
+cars <- c('Audi', 'BMW', 'Toyota', 'Mercedes', 'Z', 'Camry', 'Volvo', 'Honda')
+
+cyls <- c(6, 8 ,4 , 12, 6, 12, 12, 6)
+names(cyls)
+
+cyls.fac <- factor(
+  cyls,
+  labels = c('Small', 'Sport', 'Sedan', 'Big')
+
+)
+str(cyls.fac)
+summary(cyls.fac)
 str(blood.factor)
 levels(blood.factor)
 summary(blood.factor)
+
+
+tweets.username <- c(
+  'Hamoud', 'Hamoud', 'Hamoud',
+  'Yazeed', 'Yazeed',
+  'Ashoor', 'Ashoor', 'Ashoor', 'Ashoor',
+  'Hadley', 'Hadley', 
+  'Mike', 'Mike', 'Mike', 'Mike'
+)
+
+tweets.fac <- factor(
+  tweets.username,
+  levels = c('Hamoud', 'Yazeed', 'Ashoor', 'Hadley', 'Mike'),
+  labels = c('Student1','Student2','Student3', 'Teacher1', 'Teacher2'),
+  
+)
+
+
+
+
+str(tweets.fac)
+summary(tweets.fac)
+levels(tweets.fac) <- c(rep('Stuednt', 3), rep('Teacher', 2))
 
 
 # Ordinal Factors
@@ -82,7 +122,7 @@ tshirts.fac[1] < tshirts.fac[2] # Error: ‘<’ not meaningful for factors
 is.ordered(c('S', 'M', 'L', 'XL')) # FALSE
 tshirts.fac <- factor(tshirts, levels = c('S', 'M', 'L', 'XL'), ordered = T)
 str(tshirts.fac)
-tshirts.fac[1] < tshirts.fac[2] # TRUE
+tshirts.fac[2] < tshirts.fac[3] # TRUE
 
 
 # Months Example:
@@ -98,7 +138,7 @@ table(mons.fac)
 # We want them in order and complete include 12 months:
 
 nlevels(mons.fac) # This should be 12
-mons.fac[1] < mons.fac[2] # This should be true.
+mons.fac[2] < mons.fac[2] # This should be true.
 
 
 # Convert back to numbers
@@ -121,8 +161,8 @@ mean(as.numeric(levels(fert.fac)[fert.fac]))
 source.link <- 'https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/'
 
 dat <- read.csv('data-raw/r-novice-inflammation/sample.csv', stringsAsFactors = T)
-str(dat)
-summary(dat)
+str(dat$Gender)
+summary(dat$Gender)
 
 # b/c column group is a factor we can easly create a plot showing numbers in each group
 table(dat$Group)
