@@ -338,6 +338,40 @@ circadian.mean(hour(sleep$bed.time) + minute(sleep$bed.time) / 60 + second(sleep
 circadian.mean(hour(sleep$rise.time) + minute(sleep$rise.time) / 60 + second(sleep$rise.time) /
                  3600)
 
+mean(sleep$sleep.time)/3600
+mean(sleep$efficiency)
+
+
+# We can also plot sleep duration and efficiency across the week:
+par(mar = c(5, 4, 4, 4))
+plot(
+  round_date(sleep$rise.time, "day"),
+  sleep$efficiency,
+  type = "o",
+  col = "blue",
+  xlab = "Morning",
+  ylab = NA
+)
+par(new = TRUE)
+plot(
+  round_date(sleep$rise.time, "day"),
+  sleep$sleep.time / 3600,
+  type = "o",
+  col = "red",
+  axes = FALSE,
+  ylab = NA,
+  xlab = NA
+)
+axis(side = 4)
+mtext(side = 4,
+      line = 2.5,
+      col = "red",
+      "Sleep duration")
+mtext(side = 2,
+      line = 2.5,
+      col = "blue",
+      "Sleep efficiency")
+
 
 
 # Formating dates ---------------------------------------------------------
