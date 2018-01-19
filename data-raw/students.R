@@ -24,7 +24,7 @@ students <- data.frame(
   name = paste0(random.names$first_name, ', ', random.names$last_name),
   gender = ifelse(random.names$gender, 'Female', 'Male'),
   age = sample(15:45, 100, r = T),
-  city = sample(c('Riyadh', 'Jeddah', 'Makkah', 'Dammam'), 100, r = T),
+  city = sample(c('Riyadh', 'Jeddah', 'Makkah', 'Dammam', 'Khobar', 'Qasim'), 100, r = T),
   # registration.date = sample(seq(
   # as.Date('2017/05/15'), as.Date('2017/05/31'), by = "day"
   # ), 100, replace = T),
