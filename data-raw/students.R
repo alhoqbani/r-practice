@@ -25,12 +25,19 @@ students <- data.frame(
   gender = ifelse(random.names$gender, 'Female', 'Male'),
   age = sample(15:45, 100, r = T),
   city = sample(c('Riyadh', 'Jeddah', 'Makkah', 'Dammam'), 100, r = T),
-  quiz.1 = sample(45:100, 10, r = T),
-  quiz.2 = sample(45:100, 10, r = T),
-  quiz.3 = sample(45:100, 10, r = T),
-  quiz.4 = sample(45:100, 10, r = T)
+  # registration.date = sample(seq(
+  # as.Date('2017/05/15'), as.Date('2017/05/31'), by = "day"
+  # ), 100, replace = T),
+  quiz.1.score = sample(45:100, 10, r = T),
+  # quiz.1.date = 'Aug 10, 2017',
+  quiz.2.score = sample(45:100, 10, r = T),
+  # quiz.2.date = 'Sep 20, 2017',
+  quiz.3.score = sample(45:100, 10, r = T),
+  # quiz.3.date  = 'Nov 3, 2017',
+  quiz.4.score = sample(45:100, 10, r = T)
+  # quiz.4.date = 'Dec 10, 2017'
 )
 
 
 # Save the data frame
-save(students, file = 'data/students.rda')
+save(students, file = 'data/students.rda', precheck = T)
