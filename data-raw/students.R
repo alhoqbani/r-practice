@@ -28,13 +28,13 @@ students <- data.frame(
   # registration.date = sample(seq(
   # as.Date('2017/05/15'), as.Date('2017/05/31'), by = "day"
   # ), 100, replace = T),
-  quiz.1.score = sample(45:100, 10, r = T),
+  quiz.1.score = sample(c(45:100, NA), 100, r = T),
   # quiz.1.date = 'Aug 10, 2017',
-  quiz.2.score = sample(45:100, 10, r = T),
+  quiz.2.score = sample(c(45:100, NA), 100, r = T),
   # quiz.2.date = 'Sep 20, 2017',
-  quiz.3.score = sample(45:100, 10, r = T),
+  quiz.3.score = sample(c(45:100, NA), 100, r = T),
   # quiz.3.date  = 'Nov 3, 2017',
-  quiz.4.score = sample(45:100, 10, r = T)
+  quiz.4.score = sample(c(45:100, NA), 100, r = T)
   # quiz.4.date = 'Dec 10, 2017'
 )
 
