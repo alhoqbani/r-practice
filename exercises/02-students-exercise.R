@@ -128,8 +128,9 @@ col.indices <-
     which(names(students) == "age.category"),
     4,
     which(names(students) == "region"),
-    5:ncol(students) - 2)
+    5:(ncol(students) - 2))
 
+names(students)[col.indices]
 students <- students[, col.indices]
 names(students)
 
@@ -138,8 +139,31 @@ names(students)
 # We want to be able to sort the names by last name. We need to split the names
 # Add two variables: 'first.name', 'last.name' by splitting the values from 'name'
 
-split.names.list <- strsplit(as.character(students$name), split = ', ')
-split.names.vector <- unlist(splitted.names)
-split.names.matrix <- matrix(split.names.vector, ncol = 2, byrow = T)
+split.names.list <-
+  strsplit(as.character(students$name), split = ', ')
+split.names.vector <- unlist(split.names.list)
+split.names.matrix <-
+  matrix(split.names.vector, ncol = 2, byrow = T)
 colnames(split.names.matrix) <- c('first.name', 'last.name')
 students <- cbind(split.names.matrix, students)
+
+
+
+# - city.regions ----------------------------------------------------------
+
+# Let's merge two variables: 'region' and 'city' into one variable: 'city.region'
+# The values should be seperated by ', ' example: 'Jeddah, West'
+
+students$city.regions <-
+  paste0(students$city, ', ', students$region)
+
+
+# - Remove Variables ------------------------------------------------------
+
+# The students data frame is big and has extra variables
+# Let's remove the following variables:
+# 'name', 'age.category', 'city', 'region'
+names(students)
+# students[, -c('name', 'age.category', 'city', 'region')] # Why this doesn't work?
+students <-
+  students[, !names(students) %in% c('name', 'age.category', 'city', 'region')]
