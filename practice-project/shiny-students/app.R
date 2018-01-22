@@ -13,7 +13,7 @@ ui <- fluidPage(
     tabsetPanel(
       type = "tabs",
       id = 'tabSet',
-      selected = 'quizesInfo',
+      selected = 'lookUp',
       
       tabPanel(
         title = 'Look Up By ID',
@@ -21,12 +21,17 @@ ui <- fluidPage(
         br(),
         br(),
         
-        sidebarLayout(
-          sidebarPanel = sidebarPanel(
-            textInput('studentId', label = 'Enter Student Id')
-
-          ),
-          mainPanel = mainPanel(tableOutput("table"))
+        fluidRow(
+          textInput('studentId', label = 'Enter Student Id'),
+          helpText('Example: 17625, 17880, 17575, 17508'),
+          actionButton('gotstudentId', 'Go!')
+          
+        ),
+        
+        fluidRow(
+          tableOutput("st1"), 
+          tableOutput('st2'),
+          htmlOutput('noresult')
         )
       ),
       
@@ -53,6 +58,22 @@ ui <- fluidPage(
 
 
 server <- function(input, output, session) {
+  
+  observeEvent(input$gotstudentId, {
+    
+    student <- students[students$student.id == input$studentId,]
+    
+    if(nrow(student) > 0) {
+      output$st1 <-
+        renderTable(student[c('name', 'city', 'gender', 'age')])
+      output$st2 <-
+        renderTable(student[paste0('quiz.', 1:4, '.score')])
+    } else {
+      output$noresult <- renderText('<h1>No student with this id !!</h1>')
+    }
+    
+  })
+  
 
   output$table <- renderTable({
     
