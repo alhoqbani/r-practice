@@ -1,0 +1,10 @@
+name: shiny-students
+title:
+username:
+account: alhoqbani
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 259127
+bundleId: 1186488
+url: https://alhoqbani.shinyapps.io/shiny-students/
+when: 1516610347.3199

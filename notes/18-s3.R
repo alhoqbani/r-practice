@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 # Source 1: Cyclismo ------------------------------------------------------
 
 
@@ -81,7 +74,7 @@ help(environment)
 
 # Two ways: straightforward (using lists), and local environment
 
-# * * 1) straight-forward-approach ----
+# * * * 1) straight-forward-approach ----
 
 # You define a function that return a list and append the class name to the list.
 # The list will have the methods and proporties of the class.
@@ -116,7 +109,7 @@ louise$myFavorite
 
 
 
-# * * 2) local-environment-approach ----
+# * * * 2) local-environment-approach ----
 
 # You create a function that return a list. The list uses the environment of the function
 # to get and set the proprties of the object
@@ -174,6 +167,72 @@ assign('favoriteBreakfast', 'apple', person.2$getEnv())
 # Both objects now will have apple as favoriteBreakfast
 get('favoriteBreakfast', person.2$getEnv()) # apple
 get('favoriteBreakfast', person.1$getEnv()) # apple
+
+
+
+# * * Creating Methods ----------------------------------------------------
+
+
+# * * 1) Straight Forward Approach ----
+
+# Define a generic function
+setHasBreakfast <- function(elObjecto, newValue) {
+  print('Calling the base setHasBreakfast function')
+  UseMethod('setHasBreakfast', elObjecto)
+  print('Note this is not executed!')
+}
+
+# Define a defulat function to be used when called with other classes
+setHasBreakfast.default <- function(elObjecto, newValue) {
+  print('You screwed up. I do not know how to handle this object!')
+  print(NULL)
+}
+
+# Define the NorthAmerica class implementation of the function (function.classname)
+setHasBreakfast.NorthAmerican <- function(elObjeto, newValue) {
+  print("In setHasBreakfast.NorthAmerican and setting the value")
+  elObjeto$eatsBreakfast <- newValue
+  return(elObjeto)
+}
+
+# Instantiate the class. (Create an object from the class NorthAmerica)
+bubba <- NorthAmerican()
+bubba$eatsBreakfast # Check the current value: TRUE
+
+bubba <- setHasBreakfast(bubba, FALSE) 
+# a copy of bubba is passed. (no modify in place). 
+
+# Check the value again
+bubba$eatsBreakfast # value: FALSE
+
+# Test the default function when object of other class is passed to the function
+setHasBreakfast(mtcars)
+
+
+# Define the getter
+getHasBreakfast <- function(elObjeto)
+{
+  print("Calling the base getHasBreakfast function")
+  UseMethod("getHasBreakfast",elObjeto)
+  print("Note this is not executed!")
+}
+
+getHasBreakfast.default <- function(elObjeto)
+{
+  print("You screwed up. I do not know how to handle this object.")
+  return(NULL)
+}
+
+
+getHasBreakfast.NorthAmerican <- function(elObjeto)
+{
+  print("In getHasBreakfast.NorthAmerican and returning the value")
+  return(elObjeto$eatsBreakfast)
+}
+
+
+# * * 2) Local Environment Approach ----
+
 
 
 
