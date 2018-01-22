@@ -157,18 +157,16 @@ students$city.regions <-
 # * * Reorder Variables ---------------------------------------------------
 
 # Reorder the student data frame so:
+# student.id comes first.
 # region and city.regions comes after city
 # and age.category after age
 
-names(students)
-
 col.indices <-
-  c(1:5,
+  c(c(3, 1:2, 4:6),
     which(names(students) == "age.category"),
-    6,
+    7,
     which(names(students) %in% c('region', 'city.regions')),
-    7:(ncol(students) - 3))
-
+    8:(ncol(students) - 3))
 
 names(students)[col.indices]
 students <- students[, col.indices]
@@ -219,7 +217,7 @@ students.long <- reshape(
   students,
   varying = paste0('quiz.', 1:4),
   direction = 'long',
-  idvar = c('first.name', 'last.name'),
+  idvar = 'student.id',
   sep = '.',
   times = 'score',
   drop = c('quiz.mean', 'grade')
@@ -230,3 +228,4 @@ students.long <- reshape(
 rm(quizes.cols)
 
 lapply(split(students.long, f = students.long$time), summary)
+

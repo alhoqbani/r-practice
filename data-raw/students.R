@@ -18,6 +18,8 @@ random.names <- randomNames(
   return.complete.data = T
 )
 
+student.id <- paste0(17, sample(500:999, 100))
+
 
 # Create the data frame
 students <- data.frame(
@@ -38,6 +40,11 @@ students <- data.frame(
   # quiz.4.date = 'Dec 10, 2017'
 )
 
+# Add id variable
+students <- cbind.data.frame(student.id, students)
 
 # Save the data frame
 save(students, file = 'data/students.rda', precheck = T)
+
+# Cleanup
+rm(student.id, random.names, students)
