@@ -1,4 +1,5 @@
 
+
 # Source 1: Cyclismo ------------------------------------------------------
 
 
@@ -199,8 +200,8 @@ setHasBreakfast.NorthAmerican <- function(elObjeto, newValue) {
 bubba <- NorthAmerican()
 bubba$eatsBreakfast # Check the current value: TRUE
 
-bubba <- setHasBreakfast(bubba, FALSE) 
-# a copy of bubba is passed. (no modify in place). 
+bubba <- setHasBreakfast(bubba, FALSE)
+# a copy of bubba is passed. (no modify in place).
 
 # Check the value again
 bubba$eatsBreakfast # value: FALSE
@@ -213,7 +214,7 @@ setHasBreakfast(mtcars)
 getHasBreakfast <- function(elObjeto)
 {
   print("Calling the base getHasBreakfast function")
-  UseMethod("getHasBreakfast",elObjeto)
+  UseMethod("getHasBreakfast", elObjeto)
   print("Note this is not executed!")
 }
 
@@ -233,8 +234,200 @@ getHasBreakfast.NorthAmerican <- function(elObjeto)
 
 # * * 2) Local Environment Approach ----
 
+NotAmerican <- function(eatsBreakfast = T,
+                        myFavorite = 'cerial') {
+  # Get the envoirment of this class (this instance of the function/class)
+  this.Env <- environment()
+  
+  # Assign passed args to the object property
+  hasBreakfast <- eatsBreakfast
+  favoriteBreakfast <- myFavorite
+  
+  # Create the list which represents the new object
+  me <- list(
+    # Grab the envoriment of the parent (the object env)
+    this.Env = this.Env,
+    
+    # Define some functions/methods
+    getEnv = function() {
+      return(get('this.Env', this.Env))
+    },
+    
+    # hasBreakfast setter and getter
+    getHasBreakfast = function() {
+      return(get('hasBreakfast', this.Env))
+    },
+    setHasBreakfast = function(newValue) {
+      return(assign('hasBreakfast', newValue, envir = this.Env))
+    },
+    
+    # favoriteBreakfast setter and getter
+    getFavoriteBreakfast = function() {
+      return(get('favoriteBreakfast', this.Env))
+    },
+    setFavoriteBreakfast = function(newValue) {
+      return(assign('favoriteBreakfast', newValue, envir = this.Env))
+    }
+    
+  )
+  
+  
+  # Define the me object/list to this environment
+  assign('this', me, envir = this.Env)
+  
+  # Set the name of the class
+  class(me) <- append(class(me), 'NotAmerican')
+  
+  return(me)
+  
+}
+
+bubba <- NotAmerican()
+class(bubba)
+
+bubba$getFavoriteBreakfast()
+bubba$setFavoriteBreakfast('banana')
+bubba$getFavoriteBreakfast()
+
+# * * * Avoid copy objects issu
+bubba <- NotAmerican()
+another.bubba <- bubba
+
+bubba$getFavoriteBreakfast()
+another.bubba$getFavoriteBreakfast()
+bubba$setFavoriteBreakfast('New Food For Bubba')
+# The copied object will be the same object (by reference)
+another.bubba$getFavoriteBreakfast()
+
+# Solution to the porblem is by adding copy method to the class
+makeCopy <- function(obj) {
+  UseMethod('makeCopy', obj)
+}
+makeCopy.NotAmerican <- function(obj) {
+  newObj <- NotAmerican(
+    eatsBreakfast = obj$getHasBreakfast(),
+    myFavorite = obj$getFavoriteBreakfast()
+  )
+  
+  return(newObj)
+  
+}
+
+bubba <- NotAmerican()
+another.bubba <- makeCopy(bubba)
+
+bubba$getFavoriteBreakfast()
+another.bubba$getFavoriteBreakfast()
+bubba$setFavoriteBreakfast('New Food For Bubba')
+# The copied object will keep its props
+another.bubba$getFavoriteBreakfast()
+bubba$getFavoriteBreakfast()
 
 
+# * * Inheritance ---------------------------------------------------------
+
+# You define a new class which inherit from a parent class by adding the
+# parent class to the list of classes
+
+# The parent/super class of all the following classes
+Person <- function(eatsBreakfast = T,
+                   myFavorite = 'eggs') {
+  this.Env <- environment()
+  
+  hasBreakfast <- eatsBreakfast
+  favoriteBreakfast <- myFavorite
+  
+  me <- list(
+    this.Env = this.Env,
+    getHasBreakfast = function() {
+      return(get('hasBreakfast', envir = this.Env))
+    },
+    getFavoriteBreakfast = function() {
+      return(get('favoriteBreakfast', envir = this.Env))
+    }
+  )
+  
+  assign('this', me, envir = this.Env)
+  
+  
+  # Set the name of the class
+  class(me) <- append(class(me), 'Person')
+  
+  return(me)
+  
+}
+
+AmericanPerson <-
+  function(myFavorite = 'bacon',
+           makeBreakfast = 'fried') {
+    # Create instance of the parent class
+    obj <- Person(eatsBreakfast = T, myFavorite = myFavorite)
+    
+    # Append the new class to the parent class
+    class(obj) <- append(class(obj), 'AmericanPerson')
+    
+    # Add special things for this class? (did not work !!)
+    # obj$makeBreakfast <- makeBreakfast
+    # obj$getMakeBreakfast <- function() {
+    #   return(get('makeBreakfast', envir = obj$getEnv()))
+    # }
+    
+    return(obj)
+    
+  }
+
+american.person <- AmericanPerson()
+class(american.person)
+
+# 
+# getFavoriteBreakfast <- function(theObject)
+# {
+#   print("Calling the base getFavoriteBreakfast function")
+#   UseMethod("getFavoriteBreakfast", theObject)
+# }
+# 
+# getFavoriteBreakfast.default <- function(theObject)
+# {
+#   print(noquote(paste("Well, this class has no getFavoriteBreakfast func")))
+#   return(theObject)
+# }
+# 
+# getFavoriteBreakfast.AmericanPerson <- function(theObject)
+# {
+#   print('getFavoriteBreakfast.AmericanPerson is called')
+#   return(theObject$getFavoriteBreakfast())
+# }
+# 
+# # test getFavoriteBreakfast.AmericanPerson
+# getFavoriteBreakfast(american.person)
+# 
+
+makeBreakfast <- function(theObject) {
+  print("Calling the base makeBreakfast function")
+  UseMethod("makeBreakfast", theObject)
+}
+
+makeBreakfast.default <- function(theObject) {
+  print(noquote(paste("Well, this is awkward. Just make",
+                      theObject$getFavoriteBreakfast())))
+  return(NULL)
+}
+
+makeBreakfast.AmericanPerson <- function(theObject) {
+  print(noquote(paste("American Breakfast",
+                      theObject$getFavoriteBreakfast())))
+  NextMethod("makeBreakfast",theObject)
+  return(NULL)
+}
+
+makeBreakfast.Person <- function(theObject) {
+  print('The parent implementation')
+  NextMethod("makeBreakfast",theObject)
+}
+
+class(american.person)
+
+makeBreakfast(american.person)
 
 
 # Sources -----------------------------------------------------------------
