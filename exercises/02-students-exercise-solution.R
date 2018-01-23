@@ -63,6 +63,12 @@ students[quizes.cols][is.na(students[quizes.cols])] <- 0
 # Option 2: replace with the mean of the student's other quizes
 load('data/students.rda')
 
+# students.with.na <- which(!complete.cases(students[, quizes.cols]))
+# 
+# students[students.with.na , quizes.cols][is.na(students[students.with.na, quizes.cols])] <- round(rowMeans(students[students.with.na , quizes.cols], na.rm = T))
+# 
+# # Cleanup 
+# rm(students.with.na)
 
 # Options 3: Remove all students with missing values
 load('data/students.rda')
