@@ -121,6 +121,8 @@ students$age.category <-
       breaks = c(0, 18, 60),
       labels = c('Youth', 'Adult'))
 
+students$age.category.1 <- ifelse(students$age < 18, 'Youth', 'Adult')
+
 
 # * * add region ----------------------------------------------------------
 
@@ -235,3 +237,8 @@ rm(quizes.cols)
 
 lapply(split(students.long, f = students.long$time), summary)
 
+
+
+# Save the final version of the students data frame
+
+save(students, file = 'data/final.students.rda')
