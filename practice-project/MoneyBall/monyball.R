@@ -1,4 +1,0 @@
-# MoneyBall Project
-
-
-
